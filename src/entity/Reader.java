@@ -5,19 +5,21 @@
  */
 package entity;
 
+import java.io.Serializable;
+
 /**
  *
  * @author pupil
  */
-public class Reader {
+public class Reader implements Serializable{
     private String firstname;
     private String lastname;
-    private Integer phone;
+    private String phone;
 
     public Reader() {
     }
 
-    public Reader(String firstname, String lastname, Integer phone) {
+    public Reader(String firstname, String lastname, String phone) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.phone = phone;
@@ -39,11 +41,11 @@ public class Reader {
         this.lastname = lastname;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

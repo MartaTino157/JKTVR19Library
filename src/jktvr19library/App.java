@@ -5,8 +5,11 @@
  */
 package jktvr19library;
 
-import entity.Reader;
+import tools.ReadersStorageManager;
+import tools.BookManager;
+import tools.ReaderManager;
 import entity.Book;
+import entity.Reader;
 import java.util.Scanner;
 
 /**
@@ -16,6 +19,13 @@ import java.util.Scanner;
 public class App {
     private Scanner scanner = new Scanner(System.in);
     private Reader[] readers = new Reader[10];
+    private Book[] books = new Book[10];
+
+    public App() {
+        ReadersStorageManager rsm = new ReadersStorageManager();
+        readers = rsm.loadFromFile();
+    }
+    
 
     public void run() {
         System.out.println("----- БИБЛИОТЕКА     -----");
@@ -40,19 +50,37 @@ public class App {
                     break;
                 case "1":
                     System.out.println("----- ДОБАВИТЬ КНИГУ -----");
-                    Book book = new Book("Voina i mir", "L.Tolstoy", 2010);
-                    System.out.println("Название книги: "+book.getName());
-                    System.out.println(book.toString());
+                    BookManager bookManager = new BookManager();
+                    Book book = bookManager.addBook();
+                    for (int i = 0; i < books.length; i++) {
+                        if (books[i] == null) {
+                            books[i] = book;
+                            break;
+                        }
+                    }
                     break;
                 case "2":
                     System.out.println("----- СПИСОК КНИГ -----");
+                    int j = 0;
+                    for (Book b : books) {
+                        if(b != null){
+                            System.out.println(j+1+". "+b.toString());
+                            j++;
+                        }
+                    }
                     break;
                 case "3":
                     System.out.println("----- ДОБАВИТЬ ЧИТАТЕЛЯ ------");
-                    Reader reader = new Reader("Ivan", "Ivanov", 23145798);
-                    readers[0] = reader;
-                    Reader reader1 = new Reader("Peter", "Petrov", 25685793);
-                    readers[1] = reader1;
+                    ReaderManager readerManager = new ReaderManager();
+                    Reader reader = readerManager.addBook();
+                    for (int i = 0; i < readers.length; i++) {
+                        if (readers[i] == null) {
+                            readers[i] = reader;
+                            break;
+                        }
+                    }
+                    ReadersStorageManager readersStorageManager = new ReadersStorageManager();
+                    readersStorageManager.saveReadersToFile(readers);
                     break;
                 case "4":
                     System.out.println("----- СПИСОК ЧИТАТЕЛЕЙ -----");
