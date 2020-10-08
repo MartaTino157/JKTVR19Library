@@ -11,6 +11,7 @@ import tools.ReaderManager;
 import entity.Book;
 import entity.Reader;
 import java.util.Scanner;
+import tools.BooksStorageManager;
 
 /**
  *
@@ -24,6 +25,8 @@ public class App {
     public App() {
         ReadersStorageManager rsm = new ReadersStorageManager();
         readers = rsm.loadFromFile();
+        BooksStorageManager bsm = new BooksStorageManager();
+        books = bsm.loadFromFile();
     }
     
 
@@ -58,6 +61,8 @@ public class App {
                             break;
                         }
                     }
+                    BooksStorageManager booksStorageManager = new BooksStorageManager();
+                    booksStorageManager.saveBooksToFile(books);
                     break;
                 case "2":
                     System.out.println("----- СПИСОК КНИГ -----");
@@ -72,7 +77,7 @@ public class App {
                 case "3":
                     System.out.println("----- ДОБАВИТЬ ЧИТАТЕЛЯ ------");
                     ReaderManager readerManager = new ReaderManager();
-                    Reader reader = readerManager.addBook();
+                    Reader reader = readerManager.addReader();
                     for (int i = 0; i < readers.length; i++) {
                         if (readers[i] == null) {
                             readers[i] = reader;

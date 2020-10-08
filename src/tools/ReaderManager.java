@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class ReaderManager {
 
-    public Reader addBook() {
+    public Reader addReader() {
         Reader reader = new Reader();
         System.out.println(" --- Зарегистрировать читателя --- ");
         System.out.printf("Введите имя: ");
