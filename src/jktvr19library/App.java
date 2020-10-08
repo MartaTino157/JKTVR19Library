@@ -24,9 +24,17 @@ public class App {
 
     public App() {
         ReadersStorageManager rsm = new ReadersStorageManager();
-        readers = rsm.loadFromFile();
+        //readers = rsm.loadFromFile();
+        Reader[] loadedReaders = rsm.loadFromFile();
+        if(loadedReaders != null){
+            readers = loadedReaders;
+        }
         BooksStorageManager bsm = new BooksStorageManager();
-        books = bsm.loadFromFile();
+        //books = bsm.loadFromFile();
+        Book[] loadedBooks = bsm.loadFromFile();
+        if(loadedBooks != null){
+            books = loadedBooks;
+        }
     }
     
 

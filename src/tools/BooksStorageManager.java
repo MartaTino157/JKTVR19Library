@@ -31,13 +31,14 @@ public class BooksStorageManager {
             oos = new ObjectOutputStream(fos);
             oos.writeObject(books);
             oos.flush();
-        }catch(FileNotFoundException ex){
+        }catch (FileNotFoundException ex){
             System.out.println("Нет такого файла!");
         }catch(IOException ex){
             System.out.println("Ошибка ввода/вывода");
         }
     }
     public Book[] loadFromFile(){
+        //Book[] books = new Book[10];
         Book[] books = null;
         String fileName = "books";
         FileInputStream fis = null;

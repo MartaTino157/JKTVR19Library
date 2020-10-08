@@ -39,6 +39,7 @@ public class ReadersStorageManager {
         
     }
     public Reader[] loadFromFile() {
+        //Reader[] readers = new Reader[10];
         Reader[] readers = null;
         String fileName = "readers";
         FileInputStream fis = null;
