@@ -9,9 +9,11 @@ import tools.ReadersStorageManager;
 import tools.BookManager;
 import tools.ReaderManager;
 import entity.Book;
+import entity.History;
 import entity.Reader;
 import java.util.Scanner;
 import tools.BooksStorageManager;
+import tools.UserCardManager;
 
 /**
  *
@@ -21,6 +23,7 @@ public class App {
     private Scanner scanner = new Scanner(System.in);
     private Reader[] readers = new Reader[10];
     private Book[] books = new Book[10];
+    private History[] histories = new History[10];
 
     public App() {
         ReadersStorageManager rsm = new ReadersStorageManager();
@@ -51,6 +54,8 @@ public class App {
             System.out.println("4. Список читателей");
             System.out.println("5. Выдать книгу");
             System.out.println("6. Вернуть книгу");
+            System.out.println("7. Список читаемых книг");
+            
             System.out.printf("Выберите задачу: ");
             String task = scanner.nextLine();
             System.out.println("======================================");
@@ -97,19 +102,37 @@ public class App {
                     break;
                 case "4":
                     System.out.println("----- СПИСОК ЧИТАТЕЛЕЙ -----");
-                    int i = 0;
+                    int n = 0;
                     for (Reader r : readers) {
                         if(r != null){
-                            System.out.println(i+1+". "+r.toString());
-                            i++;
+                            System.out.println(n+1+". "+r.toString());
+                            n++;
                         }
                     }
                     break;
                 case "5":
                     System.out.println("----- ВЫДАТЬ КНИГУ -----");
+                    UserCardManager userCardManager = new UserCardManager(); 
+                    History history = userCardManager.giveBook(books, readers);
+                    for (int i = 0; i < histories.length; i++) {
+                        if (histories[i] == null) {
+                            histories[i] = history;
+                            break;
+                        }
+                    }
                     break;
                 case "6":
                     System.out.println("----- ВЕРНУТЬ КНИГУ -----");
+                    break;
+                case "7":
+                    System.out.println("----- СПИСОК ЧИТАЕМЫХ КНИГ -----");
+                    n = 0;
+                    for (History h : histories) {
+                        if(h != null && h.getReturnDate() == null){
+                            System.out.println(n+1+". "+h.toString());
+                            n++;
+                        }
+                    }
                     break;
                 default:
                     System.out.println("Нет такой задачи");
