@@ -11,8 +11,10 @@ import tools.ReaderManager;
 import entity.Book;
 import entity.History;
 import entity.Reader;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 import tools.BooksStorageManager;
+import tools.HistoriesStorageManager;
 import tools.UserCardManager;
 
 /**
@@ -38,6 +40,12 @@ public class App {
         if(loadedBooks != null){
             books = loadedBooks;
         }
+        HistoriesStorageManager hsm = new HistoriesStorageManager();
+        History[] loadedHistories = hsm.loadHistoriesFromFile();
+        if(loadedHistories != null){
+            histories = loadedHistories;
+        }
+        
     }
     
 
@@ -120,9 +128,36 @@ public class App {
                             break;
                         }
                     }
+                    HistoriesStorageManager historiesStorageManager = new HistoriesStorageManager();
+                    historiesStorageManager.saveHistoriesToFile(histories);
                     break;
                 case "6":
                     System.out.println("----- ВЕРНУТЬ КНИГУ -----");
+                    n = 0;
+                    System.out.println("Читаемые книги: ");
+                    for (History h : histories) {
+                        if(h != null && h.getReturnDate() == null){
+                            System.out.printf("%d. Книгу \"%s\" читает %s %s%n"
+                                    ,n+1
+                                    ,h.getBook().getName()
+                                    ,h.getReader().getFirstname()
+                                    ,h.getReader().getLastname()
+                            );
+                            /*System.out.println(n+1+". Книгу \""
+                                    +h.getBook().getName()
+                                    +"\" читает "
+                                    +h.getReader().getFirstname()
+                                    + " "
+                                    +h.getReader().getLastname());*/
+                            n++;
+                        }
+                    }
+                    System.out.println("Выберите номер возвращаемой книги: ");
+                    int historyNumber = scanner.nextInt();
+                    history = histories[historyNumber-1];
+                    history.setReturnDate(new GregorianCalendar().getTime());
+                    historiesStorageManager = new HistoriesStorageManager();
+                    historiesStorageManager.saveHistoriesToFile(histories);
                     break;
                 case "7":
                     System.out.println("----- СПИСОК ЧИТАЕМЫХ КНИГ -----");
