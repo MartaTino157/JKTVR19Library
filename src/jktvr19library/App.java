@@ -135,6 +135,10 @@ public class App {
                     System.out.println("----- ВЕРНУТЬ КНИГУ -----");
                     n = 0;
                     System.out.println("Читаемые книги: ");
+                    if(histories.length == 0){
+                        System.out.println("Читаемых книг нет");
+                        break;
+                    }
                     for (History h : histories) {
                         if(h != null && h.getReturnDate() == null){
                             System.out.printf("%d. Книгу \"%s\" читает %s %s%n"
