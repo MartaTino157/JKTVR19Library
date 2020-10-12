@@ -23,7 +23,15 @@ public class BookManager {
         System.out.printf("Введите автора: ");
         book.setAuthor(scanner.nextLine());
         System.out.printf("Год издания: ");
-        book.setPublishedYear(scanner.nextInt());
+        do{
+            String publishedYear = scanner.nextLine();
+            try{
+                book.setPublishedYear(Integer.parseInt(publishedYear));
+                break;
+            }catch(Exception e){
+                System.out.println("Вводите цифрами!");
+            }
+        }while(true);
         return book;
     }
     

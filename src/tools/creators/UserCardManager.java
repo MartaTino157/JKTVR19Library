@@ -30,8 +30,21 @@ public class UserCardManager {
             }
         }
         System.out.printf("Выберите номер читателя: ");
-        int readerNumber = scanner.nextInt();
-        scanner.nextLine(); //помогает не записать enter
+        int readerNumber = 0;
+        do {            
+            String readerNumberStr = scanner.nextLine();
+            try {
+                int number = Integer.parseInt(readerNumberStr);
+                if (number < n+1 && number >0){
+                    readerNumber = number;
+                    break;
+                }else{
+                    throw new Exception();
+                }
+            } catch (Exception e) {
+                System.out.println("Введите число в диапазоне 0 - "+n);
+            }
+        } while (true);
         Reader reader = readers[readerNumber-1];
         System.out.println("----- СПИСОК КНИГ -----");
         int j = 0;
@@ -42,7 +55,21 @@ public class UserCardManager {
             }
         }
         System.out.printf("Выберите номер книги: ");
-        int bookNumber = scanner.nextInt();
+        int bookNumber = 0;
+        do {            
+            String bookNumberStr = scanner.nextLine();
+            try {
+                int number = Integer.parseInt(bookNumberStr);
+                if (number < n+1 && number >0){
+                    bookNumber = number;
+                    break;
+                }else{
+                    throw new Exception();
+                }
+            } catch (Exception e) {
+                System.out.println("Введите число в диапазоне 0 - "+n);
+            }
+        } while (true);
         Book book = books[bookNumber-1];
         Calendar calendar = new GregorianCalendar();
         /*history.setBook(book);
