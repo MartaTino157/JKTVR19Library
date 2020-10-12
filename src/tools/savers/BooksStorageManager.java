@@ -3,13 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tools;
+package tools.savers;
 
-/**
- *
- * @author pupil
- */
-import entity.History;
+import entity.Book;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -23,17 +19,17 @@ import java.util.logging.Logger;
  *
  * @author pupil
  */
-public class HistoriesStorageManager {
+public class BooksStorageManager {
     
-    public void saveHistoriesToFile(History[] histories){
-        String fileName = "histories";
+    public void saveBooksToFile(Book[] books){
+        String fileName = "books";
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
         
         try {
             fos = new FileOutputStream(fileName);
             oos = new ObjectOutputStream(fos);
-            oos.writeObject(histories);
+            oos.writeObject(books);
             oos.flush();
         }catch (FileNotFoundException ex){
             System.out.println("Нет такого файла!");
@@ -41,16 +37,16 @@ public class HistoriesStorageManager {
             System.out.println("Ошибка ввода/вывода");
         }
     }
-    public History[] loadHistoriesFromFile(){
+    public Book[] loadFromFile(){
         //Book[] books = new Book[10];
-        History[] histories = null;
-        String fileName = "histories";
+        Book[] books = null;
+        String fileName = "books";
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
             fis = new FileInputStream(fileName);
             ois = new ObjectInputStream(fis);
-            return (History[]) ois.readObject();
+            return (Book[]) ois.readObject();
         } catch (FileNotFoundException ex) {
             System.out.println("Нет такого файла!");
         } catch (IOException ex) {
@@ -59,7 +55,7 @@ public class HistoriesStorageManager {
             System.out.println("Нет такого класса");
         }
         
-        return histories;
+        return books;
         
     }
 }

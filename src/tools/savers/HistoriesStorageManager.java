@@ -3,9 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tools;
+package tools.savers;
 
-import entity.Book;
+/**
+ *
+ * @author pupil
+ */
+import entity.History;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -19,17 +23,17 @@ import java.util.logging.Logger;
  *
  * @author pupil
  */
-public class BooksStorageManager {
+public class HistoriesStorageManager {
     
-    public void saveBooksToFile(Book[] books){
-        String fileName = "books";
+    public void saveHistoriesToFile(History[] histories){
+        String fileName = "histories";
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
         
         try {
             fos = new FileOutputStream(fileName);
             oos = new ObjectOutputStream(fos);
-            oos.writeObject(books);
+            oos.writeObject(histories);
             oos.flush();
         }catch (FileNotFoundException ex){
             System.out.println("Нет такого файла!");
@@ -37,16 +41,16 @@ public class BooksStorageManager {
             System.out.println("Ошибка ввода/вывода");
         }
     }
-    public Book[] loadFromFile(){
+    public History[] loadHistoriesFromFile(){
         //Book[] books = new Book[10];
-        Book[] books = null;
-        String fileName = "books";
+        History[] histories = null;
+        String fileName = "histories";
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
             fis = new FileInputStream(fileName);
             ois = new ObjectInputStream(fis);
-            return (Book[]) ois.readObject();
+            return (History[]) ois.readObject();
         } catch (FileNotFoundException ex) {
             System.out.println("Нет такого файла!");
         } catch (IOException ex) {
@@ -55,7 +59,7 @@ public class BooksStorageManager {
             System.out.println("Нет такого класса");
         }
         
-        return books;
+        return histories;
         
     }
 }

@@ -5,17 +5,17 @@
  */
 package jktvr19library;
 
-import tools.ReadersStorageManager;
-import tools.BookManager;
-import tools.ReaderManager;
+import tools.savers.ReadersStorageManager;
+import tools.creators.BookManager;
+import tools.creators.ReaderManager;
 import entity.Book;
 import entity.History;
 import entity.Reader;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
-import tools.BooksStorageManager;
-import tools.HistoriesStorageManager;
-import tools.UserCardManager;
+import tools.savers.BooksStorageManager;
+import tools.savers.HistoriesStorageManager;
+import tools.creators.UserCardManager;
 
 /**
  *
@@ -133,33 +133,8 @@ public class App {
                     break;
                 case "6":
                     System.out.println("----- ВЕРНУТЬ КНИГУ -----");
-                    n = 0;
-                    System.out.println("Читаемые книги: ");
-                    if(histories.length == 0){
-                        System.out.println("Читаемых книг нет");
-                        break;
-                    }
-                    for (History h : histories) {
-                        if(h != null && h.getReturnDate() == null){
-                            System.out.printf("%d. Книгу \"%s\" читает %s %s%n"
-                                    ,n+1
-                                    ,h.getBook().getName()
-                                    ,h.getReader().getFirstname()
-                                    ,h.getReader().getLastname()
-                            );
-                            /*System.out.println(n+1+". Книгу \""
-                                    +h.getBook().getName()
-                                    +"\" читает "
-                                    +h.getReader().getFirstname()
-                                    + " "
-                                    +h.getReader().getLastname());*/
-                            n++;
-                        }
-                    }
-                    System.out.println("Выберите номер возвращаемой книги: ");
-                    int historyNumber = scanner.nextInt();
-                    history = histories[historyNumber-1];
-                    history.setReturnDate(new GregorianCalendar().getTime());
+                    userCardManager = new UserCardManager();
+                    userCardManager.returnBook(histories);
                     historiesStorageManager = new HistoriesStorageManager();
                     historiesStorageManager.saveHistoriesToFile(histories);
                     break;
