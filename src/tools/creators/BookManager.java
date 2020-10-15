@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class BookManager {
 
-    public Book addBook() {
+    public Book createBook() {
         Book book = new Book();
         System.out.println(" --- Добавить новую книгу --- ");
         System.out.printf("Введите название: ");
@@ -33,6 +33,25 @@ public class BookManager {
             }
         }while(true);
         return book;
+    }
+
+    public void addBookToArray(Book book, Book[] books) {
+        for (int i = 0; i < books.length; i++) {
+            if (books[i] == null) {
+                books[i] = book;
+                break;
+            }
+        }
+    }
+
+    public void printListBooks(Book[] books) {
+        int n = 0;
+        for (Book b : books) {
+            if(b != null){
+                System.out.println(n+1+". "+b.toString());
+                n++;
+            }
+        }
     }
     
 }

@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class ReaderManager {
 
-    public Reader addReader() {
+    public Reader createReader() {
         Reader reader = new Reader();
         System.out.println(" --- Зарегистрировать читателя --- ");
         System.out.printf("Введите имя: ");
@@ -26,6 +26,25 @@ public class ReaderManager {
         reader.setPhone(scanner.nextLine());
         
         return reader;
+    }
+
+    public void addReaderToArray(Reader reader, Reader[] readers) {
+        for (int i = 0; i < readers.length; i++) {
+            if (readers[i] == null) {
+                readers[i] = reader;
+                break;
+            }
+        }
+    }
+
+    public void printListReaders(Reader[] readers) {
+        int n = 0;
+        for (Reader r : readers) {
+            if(r != null){
+                System.out.println(n+1+". "+r.toString());
+                n++;
+            }
+        }
     }
     
 }
