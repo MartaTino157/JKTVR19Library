@@ -38,7 +38,7 @@ public class UsersStorageManager {
             System.out.println("Ошибка ввода/вывода");
         }
     }
-    public User[] loadFromFile(){
+    public User[] loadUsersFromFile(){
         User[] users = null;
         FileInputStream fis = null;
         ObjectInputStream ois = null;
