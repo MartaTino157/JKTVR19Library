@@ -23,6 +23,8 @@ public class SecureManager {
     private ReaderManager readerManager = new ReaderManager();
     private UsersStorageManager usersStorageManager = new UsersStorageManager();
     private ReadersStorageManager readersStorageManager = new ReadersStorageManager();
+    
+    public static enum role {READER, MANAGER};
 
     public User checkInLogin(User[] users, Reader[] readers) {
         do{
