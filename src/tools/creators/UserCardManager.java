@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 import jktvr19library.App;
+import tools.savers.HistoriesStorageManager;
 
 /**
  *
@@ -21,6 +22,7 @@ public class UserCardManager {
     private Scanner scanner = new Scanner(System.in);
     private BookManager bookManager = new BookManager();
     private ReaderManager readerManager = new ReaderManager();
+    private HistoriesStorageManager historiesStorageManager = new HistoriesStorageManager();
 
     public History checkOutBook(Book[] books, Reader[] readers) {
         System.out.println("----- СПИСОК КНИГ -----");
@@ -72,10 +74,24 @@ public class UserCardManager {
     }
     public void returnBook(History[] histories){
         System.out.println("Читаемые книги: ");
-        this.printListReadBooks(histories);
-        System.out.println("Выберите номер возвращаемой книги: ");
-        int historyNumber = scanner.nextInt();
-        histories[historyNumber-1].setReturnDate(new GregorianCalendar().getTime());
+        if(this.printListReadBooks(histories)){
+            int historyNumber;
+            do {                
+                System.out.println("Выберите номер возвращаемой книги: ");
+                String historyNumberStr = scanner.nextLine();
+                try {
+                    historyNumber = Integer.parseInt(historyNumberStr);
+                    if (historyNumber < 1 && historyNumber >= histories.length) {
+                        throw new Exception("Выход за диапазон массива");
+                    }
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Выберите номер из указанного више списка");
+                }
+            } while (true);
+            histories[historyNumber-1].setReturnDate(new GregorianCalendar().getTime());
+            historiesStorageManager.saveHistoriesToFile(histories);
+        }
     }
 
     public void addHistoryToArray(History history, History[] histories) {
@@ -87,7 +103,7 @@ public class UserCardManager {
         }
     }
 
-    public void printListReadBooks(History[] histories) {
+    public boolean printListReadBooks(History[] histories) {
         boolean notReadBooks = true;
         if("MANAGER".equals(App.loggedInUser.getRole())){
             for (int i=0; i<histories.length; i++) {
@@ -103,6 +119,7 @@ public class UserCardManager {
             }
             if(notReadBooks){
                 System.out.println("Читаемых книг нет");
+                return false;
             }
         }else if("READER".equals(App.loggedInUser.getRole())){
             for (int i=0; i<histories.length; i++) {
@@ -120,7 +137,9 @@ public class UserCardManager {
             }
             if(notReadBooks){
                 System.out.println("Читаемых книг нет");
+                return false;
             }
         }
+        return true;
     }
 }
