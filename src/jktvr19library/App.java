@@ -12,7 +12,9 @@ import entity.Book;
 import entity.History;
 import entity.Reader;
 import entity.User;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Scanner;
 import security.SecureManager;
 import tools.savers.BooksStorageManager;
@@ -27,10 +29,10 @@ import ui.UserInterface;
  */
 public class App {
     
-    private Reader[] readers = new Reader[10];
-    private Book[] books = new Book[10];
-    private History[] histories = new History[10];
-    private User[] users = new User[10];
+    private List<Reader> listReaders = new ArrayList<>();
+    private List<Book> listBooks = new ArrayList<>();
+    private List<History> listHistories = new ArrayList<>();
+    private List<User> listUsers = new ArrayList<>();
     
     private BooksStorageManager booksStorageManager = new BooksStorageManager();
     private ReadersStorageManager readersStorageManager = new ReadersStorageManager();
@@ -40,33 +42,33 @@ public class App {
     public static User loggedInUser;
 
     public App() {
-        Reader[] loadedReaders = readersStorageManager.loadFromFile();
+        List<Reader> loadedReaders = readersStorageManager.loadReadersFromFile();
         if(loadedReaders != null){
-            readers = loadedReaders;
+            listReaders = loadedReaders;
         }
-        Book[] loadedBooks = booksStorageManager.loadFromFile();
+        List<Book> loadedBooks = booksStorageManager.loadBooksFromFile();
         if(loadedBooks != null){
-            books = loadedBooks;
+            listBooks = loadedBooks;
         }
-        History[] loadedHistories = historiesStorageManager.loadHistoriesFromFile();
+        List<History> loadedHistories = historiesStorageManager.loadHistoriesFromFile();
         if(loadedHistories != null){
-            histories = loadedHistories;
+            listHistories = loadedHistories;
         }
-        User[] loadedUser = userStorageManager.loadUsersFromFile();
+        List<User> loadedUser = userStorageManager.loadUsersFromFile();
         if(loadedUser != null){
-            users = loadedUser;
+            listUsers = loadedUser;
         }      
     }
     
     public void run() {
         System.out.println("----- БИБЛИОТЕКА     -----");
         SecureManager secureManager = new SecureManager();
-        this.loggedInUser = secureManager.checkInLogin(users, readers);
+        this.loggedInUser = secureManager.checkInLogin(listUsers, listReaders);
         UserInterface userInterface = new UserInterface();
         if ("MANAGER".equals(App.loggedInUser.getRole())) {
-            userInterface.printManagerUI(users, readers, books, histories);
+            userInterface.printManagerUI(listUsers, listReaders, listBooks, listHistories);
         }else if ("READER".equals(App.loggedInUser.getRole())) {
-            userInterface.printReaderUI(users, readers, books, histories);
+            userInterface.printReaderUI(listUsers, listReaders, listBooks, listHistories);
         }
     }
 }

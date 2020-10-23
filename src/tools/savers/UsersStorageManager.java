@@ -13,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,14 +24,14 @@ import java.util.logging.Logger;
 public class UsersStorageManager {
     private String fileName = "users";
     
-    public void saveUsersToFile(User[] users){
+    public void saveUsersToFile(List<User> listUsers){
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
         
         try {
             fos = new FileOutputStream(fileName);
             oos = new ObjectOutputStream(fos);
-            oos.writeObject(users);
+            oos.writeObject(listUsers);
             oos.flush();
         }catch (FileNotFoundException ex){
             System.out.println("Нет такого файла!");
@@ -38,14 +39,14 @@ public class UsersStorageManager {
             System.out.println("Ошибка ввода/вывода");
         }
     }
-    public User[] loadUsersFromFile(){
-        User[] users = null;
+    public List<User> loadUsersFromFile(){
+        List<User> listUsers = null;
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
             fis = new FileInputStream(fileName);
             ois = new ObjectInputStream(fis);
-            return (User[]) ois.readObject();
+            return (List<User>) ois.readObject();
         } catch (FileNotFoundException ex) {
             System.out.println("Нет такого файла!");
         } catch (IOException ex) {
@@ -54,7 +55,7 @@ public class UsersStorageManager {
             System.out.println("Нет такого класса");
         }
         
-        return users;
+        return listUsers;
         
     }
 }

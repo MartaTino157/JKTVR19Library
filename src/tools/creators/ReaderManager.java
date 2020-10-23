@@ -6,6 +6,7 @@
 package tools.creators;
 
 import entity.Reader;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -28,18 +29,13 @@ public class ReaderManager {
         return reader;
     }
 
-    public void addReaderToArray(Reader reader, Reader[] readers) {
-        for (int i = 0; i < readers.length; i++) {
-            if (readers[i] == null) {
-                readers[i] = reader;
-                break;
-            }
-        }
+    public void addReaderToArray(Reader reader, List<Reader> listReaders) {
+        listReaders.add(reader);
     }
 
-    public void printListReaders(Reader[] readers) {
+    public void printListReaders(List<Reader> listReaders) {
         int n = 0;
-        for (Reader r : readers) {
+        for (Reader r : listReaders) {
             if(r != null){
                 System.out.println(n+1+". "+r.toString());
                 n++;
