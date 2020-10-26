@@ -5,7 +5,6 @@
  */
 package jktvr19library;
 
-import tools.savers.ReadersStorageManager;
 import tools.creators.BookManager;
 import tools.creators.ReaderManager;
 import entity.Book;
@@ -17,10 +16,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Scanner;
 import security.SecureManager;
-import tools.savers.BooksStorageManager;
-import tools.savers.HistoriesStorageManager;
+import tools.savers.StorageManager;
 import tools.creators.UserCardManager;
-import tools.savers.UsersStorageManager;
 import ui.UserInterface;
 
 /**
@@ -28,33 +25,30 @@ import ui.UserInterface;
  * @author pupil
  */
 public class App {
-    
+    public static enum storageFile{BOOKS, READERS, USERS, HISTORIES}
     private List<Reader> listReaders = new ArrayList<>();
     private List<Book> listBooks = new ArrayList<>();
     private List<History> listHistories = new ArrayList<>();
     private List<User> listUsers = new ArrayList<>();
     
-    private BooksStorageManager booksStorageManager = new BooksStorageManager();
-    private ReadersStorageManager readersStorageManager = new ReadersStorageManager();
-    private HistoriesStorageManager historiesStorageManager = new HistoriesStorageManager();
-    private UsersStorageManager userStorageManager = new UsersStorageManager();
-    
+    private StorageManager storageManager = new StorageManager();
+
     public static User loggedInUser;
 
     public App() {
-        List<Reader> loadedReaders = readersStorageManager.loadReadersFromFile();
+        List<Reader> loadedReaders = storageManager.load(App.storageFile.READERS.toString());
         if(loadedReaders != null){
             listReaders = loadedReaders;
         }
-        List<Book> loadedBooks = booksStorageManager.loadBooksFromFile();
+        List<Book> loadedBooks = storageManager.load(App.storageFile.BOOKS.toString());
         if(loadedBooks != null){
             listBooks = loadedBooks;
         }
-        List<History> loadedHistories = historiesStorageManager.loadHistoriesFromFile();
+        List<History> loadedHistories = storageManager.load(App.storageFile.HISTORIES.toString());
         if(loadedHistories != null){
             listHistories = loadedHistories;
         }
-        List<User> loadedUser = userStorageManager.loadUsersFromFile();
+        List<User> loadedUser = storageManager.load(App.storageFile.USERS.toString());
         if(loadedUser != null){
             listUsers = loadedUser;
         }      
@@ -65,9 +59,9 @@ public class App {
         SecureManager secureManager = new SecureManager();
         this.loggedInUser = secureManager.checkInLogin(listUsers, listReaders);
         UserInterface userInterface = new UserInterface();
-        if ("MANAGER".equals(App.loggedInUser.getRole())) {
+        if (SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRole())) {
             userInterface.printManagerUI(listUsers, listReaders, listBooks, listHistories);
-        }else if ("READER".equals(App.loggedInUser.getRole())) {
+        }else if (SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRole())) {
             userInterface.printReaderUI(listUsers, listReaders, listBooks, listHistories);
         }
     }

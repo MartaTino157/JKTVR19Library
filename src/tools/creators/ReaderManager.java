@@ -8,6 +8,8 @@ package tools.creators;
 import entity.Reader;
 import java.util.List;
 import java.util.Scanner;
+import jktvr19library.App;
+import tools.savers.StorageManager;
 
 /**
  *
@@ -31,6 +33,8 @@ public class ReaderManager {
 
     public void addReaderToArray(Reader reader, List<Reader> listReaders) {
         listReaders.add(reader);
+        StorageManager storageManager = new StorageManager();
+        storageManager.save(listReaders,App.storageFile.READERS.toString());
     }
 
     public void printListReaders(List<Reader> listReaders) {

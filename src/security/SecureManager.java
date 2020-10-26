@@ -9,10 +9,10 @@ import entity.Reader;
 import entity.User;
 import java.util.List;
 import java.util.Scanner;
+import jktvr19library.App;
 import tools.creators.ReaderManager;
 import tools.creators.UserManager;
-import tools.savers.ReadersStorageManager;
-import tools.savers.UsersStorageManager;
+import tools.savers.StorageManager;
 
 /**
  *
@@ -22,8 +22,7 @@ public class SecureManager {
     private Scanner scanner = new Scanner(System.in);
     private UserManager userManager = new UserManager();
     private ReaderManager readerManager = new ReaderManager();
-    private UsersStorageManager usersStorageManager = new UsersStorageManager();
-    private ReadersStorageManager readersStorageManager = new ReadersStorageManager();
+    private StorageManager storageManager = new StorageManager();
     
     public static enum role {READER, MANAGER};
 
@@ -44,8 +43,8 @@ public class SecureManager {
                     User user = userManager.createUser();
                     userManager.addUserToArray(user, listUsers);
                     readerManager.addReaderToArray(user.getReader(), listReaders);
-                    readersStorageManager.saveReadersToFile(listReaders);
-                    usersStorageManager.saveUsersToFile(listUsers);
+                    storageManager.save(listReaders, App.storageFile.READERS.toString());
+                    storageManager.save(listUsers, App.storageFile.USERS.toString());
                     break;
                 case "2":
                     User checkInUser = userManager.getCheckInUser(listUsers);
