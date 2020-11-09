@@ -1,13 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ветка SaveToBase2
+ * Подключение базы данных и сохранение сущностей в базу
+ * Шаги:
+ * 1. Добавить библиотеки поставщика персистентсности
+ * (EclipseLink) и драйвер базы данных (С:\Program Files\NetBeans 8.2\ide\modules\ext\msql-connector-java-5.1.23-bin.jar)
+ * 2. Добавить аннотации @Entity, @Id, @GeneratedValue и др. к полям сущностей
+ * 3. Создание БД с помошью phpMyAdmin
+ * 4. Создание persistence.xml (файла подключения к базе)
+ * 5. Добавляем в persistence.xml классы
+ * 6. Создаем файл-менеджер сохранения в базу
  */
 package jktvr19library;
 
 /**
  *
  * @author pupil
+ * 
  */
 public class JKTVR19Library {
 

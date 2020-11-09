@@ -18,7 +18,7 @@ import java.util.Scanner;
 import security.SecureManager;
 import tools.savers.FileManager;
 import tools.creators.UserCardManager;
-import tools.savers.DBManager;
+import tools.savers.BaseManager;
 import ui.UserInterface;
 import tools.savers.StorageManagerInterface;
 
@@ -35,7 +35,7 @@ public class App {
     private List<User> listUsers = new ArrayList<>();
     
     //private StorageManagerInterface storageManager = new FileManager();
-    private StorageManagerInterface storageManager = new DBManager();
+    private StorageManagerInterface storageManager = new BaseManager();
 
     public static User loggedInUser;
 

@@ -5,6 +5,7 @@
  */
 package tools.savers;
 
+import entity.Book;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -16,18 +17,22 @@ import javax.persistence.Persistence;
  *
  * @author pupil
  */
-public class DBManager implements StorageManagerInterface{
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("JKTVR19LibraryPU");
-    private EntityManager em = emf.createEntityManager();
-    private EntityTransaction tx = em.getTransaction();
-
+public class BaseManager implements StorageManagerInterface{
+    
     @Override
     public void save(List arrayList, String fileName) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JKTVR19LibraryPU");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
         tx.begin();
-        for (int i = 0; i < arrayList.size(); i++) {
-            Object entity = arrayList.get(i);
-            em.persist(entity);
-        }
+            for (int i = 0; i < arrayList.size(); i++) {
+                if(Book.class.equals(arrayList.get(i))){
+                    List<Book> listBook = (List<Book>) arrayList;
+                    if(listBook.get(i).getId() == null){
+                        em.persist(listBook.get(i));
+                    }
+                }
+            }
         tx.commit();
     }
 
