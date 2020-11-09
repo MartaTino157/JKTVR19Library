@@ -24,12 +24,12 @@ import java.util.logging.Logger;
  *
  * @author pupil
  */
-public class StorageManager {
+public class FileManager implements StorageManagerInterface{
     
+    @Override
     public void save(List arrayList, String fileName){
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
-        
         try {
             fos = new FileOutputStream(fileName);
             oos = new ObjectOutputStream(fos);
@@ -41,6 +41,7 @@ public class StorageManager {
             System.out.println("Ошибка ввода/вывода");
         }
     }
+    @Override
     public List load(String fileName){
         List arrayList = null;
         FileInputStream fis = null;

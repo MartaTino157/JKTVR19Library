@@ -9,7 +9,9 @@ import entity.Book;
 import java.util.List;
 import java.util.Scanner;
 import jktvr19library.App;
-import tools.savers.StorageManager;
+import tools.savers.DBManager;
+import tools.savers.FileManager;
+import tools.savers.StorageManagerInterface;
 
 /**
  *
@@ -40,9 +42,9 @@ public class BookManager {
         return book;
     }
 
-    public void addBookToArray(Book book, List<Book> listBooks) {
+    public void addBookToArray(Book book, List<Book> listBooks, StorageManagerInterface storageManager) {
         listBooks.add(book);
-        StorageManager storageManager = new StorageManager();
+        StorageManagerInterface storageManager = new DBManager();
         storageManager.save(listBooks, App.storageFile.BOOKS.toString());
 
     }

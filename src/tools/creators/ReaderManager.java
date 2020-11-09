@@ -9,7 +9,7 @@ import entity.Reader;
 import java.util.List;
 import java.util.Scanner;
 import jktvr19library.App;
-import tools.savers.StorageManager;
+import tools.savers.FileManager;
 
 /**
  *
@@ -33,7 +33,7 @@ public class ReaderManager {
 
     public void addReaderToArray(Reader reader, List<Reader> listReaders) {
         listReaders.add(reader);
-        StorageManager storageManager = new StorageManager();
+        FileManager storageManager = new FileManager();
         storageManager.save(listReaders,App.storageFile.READERS.toString());
     }
 
