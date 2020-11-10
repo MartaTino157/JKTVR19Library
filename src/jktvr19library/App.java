@@ -39,7 +39,16 @@ public class App {
 
     public static User loggedInUser;
 
-    public App() {
+    public App(String flag) {
+        String info = "Сохраняем данные в базу";
+        if("base".equals(flag)){
+            this.storageManager = new BaseManager();
+            info = "Сохраняем данные в базу";
+        }else if("file".equals(flag)){
+            this.storageManager = new FileManager();
+            info = "Сохраняем данные в файл";
+        }
+        System.out.println(info);
         List<Reader> loadedReaders = storageManager.load(App.storageFile.READERS.toString());
         if(loadedReaders != null){
             listReaders = loadedReaders;
@@ -61,12 +70,13 @@ public class App {
     public void run() {
         System.out.println("----- БИБЛИОТЕКА     -----");
         SecureManager secureManager = new SecureManager();
-        this.loggedInUser = secureManager.checkInLogin(listUsers, listReaders);
+        this.loggedInUser = secureManager.checkInLogin(listUsers, listReaders, storageManager);
         UserInterface userInterface = new UserInterface();
+        
         if (SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRole())) {
-            userInterface.printManagerUI(listUsers, listReaders, listBooks, listHistories);
+            userInterface.printManagerUI(listUsers, listReaders, listBooks, listHistories, storageManager);
         }else if (SecureManager.role.READER.toString().equals(App.loggedInUser.getRole())) {
-            userInterface.printReaderUI(listUsers, listReaders, listBooks, listHistories);
+            userInterface.printReaderUI(listUsers, listReaders, listBooks, listHistories, storageManager);
         }
     }
 }
