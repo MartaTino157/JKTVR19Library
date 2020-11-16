@@ -39,7 +39,7 @@ public class UserCardManager {
             try {
                 bookNumber = Integer.parseInt(bookNumberStr);
                 if (bookNumber < 1 && bookNumber >=listBooks.size()){
-                    throw new Exception(" Выход за диапазон массива книг");
+                    throw new Exception(" Выход за диапазон массива книг");  
                 }
                 break;
             } catch (Exception e) {

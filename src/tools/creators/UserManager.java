@@ -8,6 +8,8 @@ package tools.creators;
 
 import entity.Reader;
 import entity.User;
+import entity.controllers.ReaderController;
+import entity.controllers.UserController;
 import java.util.List;
 import java.util.Scanner;
 import security.SecureManager;
@@ -22,6 +24,8 @@ public class UserManager {
     public User createUser() {
         ReaderManager readerManager = new ReaderManager();
         Reader reader = readerManager.createReader();
+        ReaderController rc = new ReaderController();
+        rc.create(reader);
         User user = new User();
         System.out.println(" --- Добавить пользователя --- ");
         System.out.printf("Логин : ");
@@ -65,12 +69,18 @@ public class UserManager {
         }
     }
 
-    public User getCheckInUser(List<User> listUsers) {
+    public User getCheckInUser() {
         System.out.println("-----Вход в систему------");
         System.out.print("Login: ");
         String login = scanner.nextLine();
         System.out.print("Password: ");
         String password = scanner.nextLine();
+        UserController uc = new UserController();
+        List<User> listUsers = uc.findAll();
+        if(listUsers == null){
+            System.out.println("У вас нет права входа! Зарегистрируйтесь");
+            return null;
+        }
         for (int i = 0; i < listUsers.size(); i++) {
             if(listUsers.get(i) != null && listUsers.get(i).getLogin().equals(login)){
                 for (int j = 0; j < 2; j++) {

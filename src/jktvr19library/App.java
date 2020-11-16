@@ -29,10 +29,10 @@ import tools.savers.StorageManagerInterface;
 public class App {
     public static enum storageFile{BOOKS, READERS, USERS, HISTORIES}
     
-    private List<Reader> listReaders = new ArrayList<>();
-    private List<Book> listBooks = new ArrayList<>();
-    private List<History> listHistories = new ArrayList<>();
-    private List<User> listUsers = new ArrayList<>();
+//    private List<Reader> listReaders = new ArrayList<>();
+//    private List<Book> listBooks = new ArrayList<>();
+//    private List<History> listHistories = new ArrayList<>();
+//    private List<User> listUsers = new ArrayList<>();
     
     //private StorageManagerInterface storageManager = new FileManager();
     private StorageManagerInterface storageManager = new BaseManager();
@@ -49,34 +49,37 @@ public class App {
             info = "Сохраняем данные в файл";
         }
         System.out.println(info);
-        List<Reader> loadedReaders = storageManager.load(App.storageFile.READERS.toString());
-        if(loadedReaders != null){
-            listReaders = loadedReaders;
-        }
-        List<Book> loadedBooks = storageManager.load(App.storageFile.BOOKS.toString());
-        if(loadedBooks != null){
-            listBooks = loadedBooks;
-        }
-        List<History> loadedHistories = storageManager.load(App.storageFile.HISTORIES.toString());
-        if(loadedHistories != null){
-            listHistories = loadedHistories;
-        }
-        List<User> loadedUser = storageManager.load(App.storageFile.USERS.toString());
-        if(loadedUser != null){
-            listUsers = loadedUser;
-        }      
+//        List<Reader> loadedReaders = storageManager.load(App.storageFile.READERS.toString());
+//        if(loadedReaders != null){
+//            listReaders = loadedReaders;
+//        }
+//        List<Book> loadedBooks = storageManager.load(App.storageFile.BOOKS.toString());
+//        if(loadedBooks != null){
+//            listBooks = loadedBooks;
+//        }
+//        List<History> loadedHistories = storageManager.load(App.storageFile.HISTORIES.toString());
+//        if(loadedHistories != null){
+//            listHistories = loadedHistories;
+//        }
+//        List<User> loadedUser = storageManager.load(App.storageFile.USERS.toString());
+//        if(loadedUser != null){
+//            listUsers = loadedUser;
+//        }      
     }
     
     public void run() {
         System.out.println("----- БИБЛИОТЕКА     -----");
         SecureManager secureManager = new SecureManager();
-        this.loggedInUser = secureManager.checkInLogin(listUsers, listReaders, storageManager);
+        App.loggedInUser = secureManager.checkInLogin();
         UserInterface userInterface = new UserInterface();
-        
+        if(App.loggedInUser == null){
+            System.out.println("У вас нет права доступа");
+            return;
+        }
         if (SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRole())) {
-            userInterface.printManagerUI(listUsers, listReaders, listBooks, listHistories, storageManager);
+            userInterface.printManagerUI();
         }else if (SecureManager.role.READER.toString().equals(App.loggedInUser.getRole())) {
-            userInterface.printReaderUI(listUsers, listReaders, listBooks, listHistories, storageManager);
+            userInterface.printReaderUI();
         }
     }
 }

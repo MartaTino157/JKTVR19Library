@@ -11,6 +11,8 @@
  *          useUnicode=true&characterEncoding=utf8
  * 5. Добавляем в persistence.xml классы
  * 6. Создаем файл-менеджер сохранения в базу
+ * 7. Ветка saveDataBaseOnly
+        Подключение программы ек базе данных без сохранения массивов в файл
  */
 package jktvr19library;
 
