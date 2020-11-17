@@ -10,11 +10,14 @@ import entity.History;
 import entity.Reader;
 import entity.User;
 import entity.controllers.BookController;
+import entity.controllers.ReaderController;
+import entity.controllers.UserController;
 import java.util.List;
 import java.util.Scanner;
 import tools.creators.BookManager;
 import tools.creators.ReaderManager;
 import tools.creators.UserCardManager;
+import tools.creators.UserManager;
 import tools.savers.FileManager;
 import tools.savers.StorageManagerInterface;
 
@@ -63,32 +66,33 @@ public class UserInterface {
                     break;
                 case "3":
                     System.out.println("----- ДОБАВИТЬ ЧИТАТЕЛЯ ------");
-                    Reader reader = readerManager.createReader();
-                    readerManager.addReaderToArray(reader, listReaders);
+                    UserManager userManager = new UserManager();
+                    User user = userManager.createUser();
+                    UserController uc = new UserController();
+                    uc.create(user);
                     break;
                 case "4":
                     System.out.println("----- СПИСОК ЧИТАТЕЛЕЙ -----");
-                    readerManager.printListReaders(listReaders);
+                    readerManager.printListReaders();
                     break;
                 case "5":
                     System.out.println("----- ВЫДАТЬ КНИГУ -----");
-                    History history = userCardManager.checkOutBook(listBooks, listReaders, storageManager);
-                    userCardManager.addHistoryToArray(history, listHistories, storageManager);
+                    userCardManager.checkOutBook();
                     break;
                 case "6":
                     System.out.println("----- ВЕРНУТЬ КНИГУ -----");
-                    userCardManager.returnBook(listHistories, storageManager);
+                    userCardManager.returnBook();
                     break;
                 case "7":
                     System.out.println("----- СПИСОК ЧИТАЕМЫХ КНИГ -----");
-                    userCardManager.printListReadBooks(listHistories);
+                    userCardManager.printListReadBooks();
                     break;
                 default:
                     System.out.println("Нет такой задачи");
             }
         } while (repeat);
     }
-    public void printReaderUI(List<User> listUsers, List<Reader> listReaders, List<Book> listBooks, List<History> listHistories, StorageManagerInterface storageManager) {
+    public void printReaderUI() {
         boolean repeat = true;
         do {
             System.out.println("======================================");
@@ -109,21 +113,19 @@ public class UserInterface {
                     break;
                 case "1":
                     System.out.println("----- СПИСОК КНИГ -----");
-                    bookManager.printListBooks(listBooks);
+                    bookManager.printListBooks();
                     break;
                 case "2":
                     System.out.println("----- ВЗЯТЬ КНИГУ -----");
-                    History history = userCardManager.checkOutBook(listBooks, listReaders, storageManager);
-                    if(history == null) break;
-                    userCardManager.addHistoryToArray(history, listHistories, storageManager);
+                    userCardManager.checkOutBook();
                     break;
                 case "3":
                     System.out.println("----- ВЕРНУТЬ КНИГУ -----");
-                    userCardManager.returnBook(listHistories, storageManager);
+                    userCardManager.returnBook();
                     break;
                 case "4":
                     System.out.println("----- СПИСОК ЧИТАЕМЫХ КНИГ -----");
-                    userCardManager.printListReadBooks(listHistories);
+                    userCardManager.printListReadBooks();
                     break;
                 default:
                     System.out.println("Нет такой задачи");

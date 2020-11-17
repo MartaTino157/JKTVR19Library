@@ -35,4 +35,14 @@ public class BookController {
             return null;
         }
     }
+
+    public Book find(Long bookId) {
+        try {
+            return (Book) em.createQuery("SELECT b FROM Book b WHERE b.id = :id")
+                    .setParameter("id", bookId)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

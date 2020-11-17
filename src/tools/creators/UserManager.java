@@ -55,20 +55,6 @@ public class UserManager {
         return user;
     }
 
-    public void addUserToArray(User user, List<User> listUsers) {
-        listUsers.add(user);
-    }
-
-    public void printListUsers(User[] users) {
-        int n = 0;
-        for (User b : users) {
-            if(b != null){
-                System.out.println(n+1+". "+b.toString());
-                n++;
-            }
-        }
-    }
-
     public User getCheckInUser() {
         System.out.println("-----Вход в систему------");
         System.out.print("Login: ");
