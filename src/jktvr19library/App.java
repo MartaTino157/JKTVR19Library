@@ -5,19 +5,9 @@
  */
 package jktvr19library;
 
-import tools.creators.BookManager;
-import tools.creators.ReaderManager;
-import entity.Book;
-import entity.History;
-import entity.Reader;
 import entity.User;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Scanner;
 import security.SecureManager;
 import tools.savers.FileManager;
-import tools.creators.UserCardManager;
 import tools.savers.BaseManager;
 import ui.UserInterface;
 import tools.savers.StorageManagerInterface;
