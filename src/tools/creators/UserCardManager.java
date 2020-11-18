@@ -8,17 +8,15 @@ package tools.creators;
 import entity.Book;
 import entity.History;
 import entity.Reader;
-import entity.controllers.BookController;
-import entity.controllers.HistoryController;
-import entity.controllers.ReaderController;
+import entity.facades.BookFacade;
+import entity.facades.HistoryFacade;
+import entity.facades.ReaderFacade;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Scanner;
 import jktvr19library.App;
 import security.SecureManager;
-import tools.savers.FileManager;
-import tools.savers.StorageManagerInterface;
 
 /**
  *
@@ -28,7 +26,10 @@ public class UserCardManager {
     private Scanner scanner = new Scanner(System.in);
     private BookManager bookManager = new BookManager();
     private ReaderManager readerManager = new ReaderManager();
-    //private FileManager storageManager = new FileManager();
+    
+    private BookFacade bookFacade = new BookFacade(Book.class);
+    private ReaderFacade readerFacade = new ReaderFacade(Reader.class);
+    private HistoryFacade historyFacade = new HistoryFacade(History.class);
 
     public void checkOutBook() {
         System.out.println("----- СПИСОК КНИГ -----");
@@ -46,8 +47,7 @@ public class UserCardManager {
                 System.out.println("Выберите номер из списка");
             }
         }while(true);
-        BookController bc = new BookController();
-        Book book = bc.find(bookNumber);
+        Book book = bookFacade.find(bookNumber);
         Reader reader = null;
         if(SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRole())){
             Long readerNumber;
@@ -64,15 +64,13 @@ public class UserCardManager {
                     readerNumberStr = scanner.nextLine();
                 }
             } while (true);
-            ReaderController rc = new ReaderController();
-            reader = rc.find(readerNumber);
+            reader = readerFacade.find(readerNumber);
         }else if(SecureManager.role.READER.toString().equals(App.loggedInUser.getRole())){
             reader = App.loggedInUser.getReader();
         }
         Calendar calendar = new GregorianCalendar();
         History history = new History(book, reader, calendar.getTime(), null);
-        HistoryController hc = new HistoryController();
-        hc.create(history);
+        historyFacade.create(history);
     }
     public void returnBook(){
         System.out.println("Читаемые книги: ");
@@ -88,17 +86,15 @@ public class UserCardManager {
                     System.out.println("Выберите номер из указанного выше списка");
                 }
             } while (true);
-            HistoryController hc = new HistoryController();
-            History history = hc.find(historyNumber);
+            History history = historyFacade.find(historyNumber);
             history.setReturnDate(new GregorianCalendar().getTime());
-            hc.edit(history);
+            historyFacade.edit(history);
         }
     }
 
     public boolean printListReadBooks() {
-        HistoryController hc = new HistoryController();
         if(SecureManager.role.MANAGER.toString().equals(App.loggedInUser.getRole())){
-            List<History> listHistories = hc.findAll(true);
+            List<History> listHistories = historyFacade.findAll(true);
             if(listHistories == null){
                 System.out.println("Читаемых книг нет");
                 return false;
@@ -112,7 +108,7 @@ public class UserCardManager {
                 );
             }
         }else if(SecureManager.role.READER.toString().equals(App.loggedInUser.getRole())){
-            List<History> listHistories = hc.findAll(App.loggedInUser.getReader());
+            List<History> listHistories = historyFacade.findAll(App.loggedInUser.getReader());
             if(listHistories == null){
                 System.out.println("Читаемых книг нет");
                 return false;

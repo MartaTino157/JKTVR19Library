@@ -3,39 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity.controllers;
+package entity.facades;
 
 import entity.History;
 import entity.Reader;
-import entity.User;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 /**
  *
  * @author pupil
  */
-public class HistoryController {
+public class HistoryFacade extends AbstractFacade<History>{
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("JKTVR19LibraryPU");
     private EntityManager em = emf.createEntityManager();
-    private EntityTransaction tx = em.getTransaction();
-    
-    public void create(History history) {
-        tx.begin();
-        em.persist(history);
-        tx.commit();
+
+    public HistoryFacade(Class<History> entityClass) {
+        super(entityClass);
     }
 
-    public List<History> findAll() {
-        try {
-            return em.createQuery("SELECT h FROM History h")
-                    .getResultList();
-        } catch (Exception e) {
-            return null;
-        }
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
     }
 
     public List<History> findAll(boolean reading) {
@@ -55,21 +46,4 @@ public class HistoryController {
             return null;
         }
     }
-    public History find(Long historyId) {
-        try {
-            return (History) em.createQuery("SELECT h FROM History h WHERE h.id = :id")
-                    .setParameter("id", historyId)
-                    .getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public void edit(History history) {
-        tx.begin();
-        em.merge(history);
-        tx.commit();
-    }
-
-
 }

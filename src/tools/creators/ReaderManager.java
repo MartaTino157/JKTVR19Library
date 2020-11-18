@@ -6,7 +6,7 @@
 package tools.creators;
 
 import entity.Reader;
-import entity.controllers.ReaderController;
+import entity.facades.ReaderFacade;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,6 +15,7 @@ import java.util.Scanner;
  * @author pupil
  */
 public class ReaderManager {
+    private ReaderFacade readerFacade = new ReaderFacade(Reader.class);
 
     public Reader createReader() {
         Reader reader = new Reader();
@@ -26,13 +27,12 @@ public class ReaderManager {
         reader.setLastname(scanner.nextLine());
         System.out.printf("Введите номер телефона: ");
         reader.setPhone(scanner.nextLine());
-        
+        readerFacade.create(reader);
         return reader;
     }
 
     public void printListReaders() {
-        ReaderController rc = new ReaderController();
-        List<Reader> listReaders = rc.findAll();
+        List<Reader> listReaders = readerFacade.findAll();
         if(listReaders == null){
             System.out.println("Нет читателей");
             return;

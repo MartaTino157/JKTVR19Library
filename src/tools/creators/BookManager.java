@@ -6,7 +6,7 @@
 package tools.creators;
 
 import entity.Book;
-import entity.controllers.BookController;
+import entity.facades.BookFacade;
 import java.util.List;
 import java.util.Scanner;
 import jktvr19library.App;
@@ -19,6 +19,7 @@ import tools.savers.StorageManagerInterface;
  * @author pupil
  */
 public class BookManager {
+    private BookFacade bookFacade = new BookFacade(Book.class);
 
     public Book createBook() {
         Book book = new Book();
@@ -40,12 +41,12 @@ public class BookManager {
             }
         }while(true);
         book.setPublishedYear(numPublishedYear);
+        bookFacade.create(book);
         return book;
     }
 
     public boolean printListBooks() {
-        BookController bc = new BookController();
-        List<Book> listBooks = bc.findAll();
+        List<Book> listBooks = bookFacade.findAll();
         if(listBooks == null || listBooks.size() < 1){
             System.out.println("Книг нет!");
             return false;

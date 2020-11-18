@@ -7,7 +7,7 @@ package security;
 
 import entity.Reader;
 import entity.User;
-import entity.controllers.UserController;
+import entity.facades.UserFacade;
 import java.util.List;
 import java.util.Scanner;
 import jktvr19library.App;
@@ -43,8 +43,8 @@ public class SecureManager {
                     break;
                 case "1":
                     User user = userManager.createUser();
-                    UserController uc = new UserController();
-                    uc.create(user);
+                    UserFacade userFacade = new UserFacade(User.class);
+                    userFacade.create(user);
                     break;
                 case "2":
                     User checkInUser = userManager.getCheckInUser();
